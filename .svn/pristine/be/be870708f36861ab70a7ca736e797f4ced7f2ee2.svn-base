@@ -1,0 +1,10 @@
+<div class="article-actions" *ngIf="article">
+    <div class="article-meta">
+        <app-article-info  [article]="articleService.getCurrentArticle()|async"></app-article-info>
+        <app-follow-button  [profile]="profileService.getClickedProfile()|async" *ngIf="!articleService.isOwner()"></app-follow-button>
+        <a *ngIf="articleService.isOwner()" class="btn btn-sm btn-outline-secondary" [routerLink]="['/editor', article.value.slug]"><i class="ion-compose"></i>&nbsp;Edit Article</a>
+        &nbsp;&nbsp;
+        <app-favorite-button *ngIf="!articleService.isOwner()" [article]="articleService.getCurrentArticle()|async" [text]="favBtnText" ></app-favorite-button>
+        <button class="btn btn-sm btn-outline-danger" *ngIf="articleService.isOwner()">Delete</button>
+    </div>
+</div>

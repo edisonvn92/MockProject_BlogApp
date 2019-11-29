@@ -1,0 +1,48 @@
+<div class="settings-page">
+    <div class="container page">
+        <div class="row">
+
+            <div class="col-md-6 offset-md-3 col-xs-12">
+                <h1 class="text-xs-center">Your Settings</h1>
+                <form #userSettings="ngForm">
+                    <div *ngIf="error">
+                        <app-form-error-messages [error]="error"></app-form-error-messages>
+                    </div>
+
+                    <fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control" type="text" placeholder="URL of profile picture" [(ngModel)]="currentUser.image" name="image">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-control-lg" type="text" placeholder="Your Name" [(ngModel)]="currentUser.username" name="username" #username="ngModel" required>
+                            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger">
+                                <p *ngIf="username.errors['required']">Name field is required</p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <textarea class="form-control form-control-lg" rows="8" placeholder="Short bio about you" [(ngModel)]="currentUser.bio" name="bio"></textarea>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-control-lg" type="email" placeholder="Email" [(ngModel)]="currentUser.email" #email="ngModel" name="email" required email>
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                                <p *ngIf="email.errors['required']">Email field is required</p>
+                                <p *ngIf="email.errors['email']">Email field is invalid</p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-control-lg" type="password" placeholder="New Password" [(ngModel)]="currentUser.password" name="password">
+                        </fieldset>
+                        <button class="btn btn-lg btn-primary pull-xs-right" (click)="updateUser(currentUser)">
+                            Update Settings
+                        </button>
+                    </fieldset>
+                </form>
+                <button class="btn btn-lg btn-outline-danger pull-xs-right" (click)="signOut()">
+                    Or click here to log out
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

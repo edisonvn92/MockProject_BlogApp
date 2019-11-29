@@ -1,0 +1,108 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ArticleModifyService } from 'src/app/services/articles/article-modify.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ArticleInteractService } from '../../services/articles/article-interact.service';
+import { Article } from '../../classes/article';
+
+@Component({
+  selector: 'app-editor',
+  templateUrl: './editor.component.html',
+  styleUrls: ['./editor.component.css'],
+  providers: [ArticleModifyService]
+})
+export class EditorComponent implements OnInit {
+  private _chosenSlug = '';
+  tagList = [];
+  editor = this.fb.group({
+    title: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+    body: ['', [Validators.required]],
+    tagField: ['', [Validators.required]]
+  });
+  updating = false;
+  error: Object;
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private articleService: ArticleInteractService,
+    private modifyService: ArticleModifyService
+  ) {
+    
+  }
+
+  ngOnInit() {
+   this.route.params.subscribe(params => {
+     if(params['slug']) {
+      this.updating = true;
+      this._chosenSlug = params['slug'];
+      this.articleService.getArticleBySlug(params['slug']).then(
+        value => {
+          this.title.setValue(value.title);
+          this.description.setValue(value.description);
+          this.body.setValue(value.body);
+          this.tagList = value.tagList;
+        }
+      )
+     }
+   });
+  }
+
+  get title() {
+    return this.editor.get('title');
+  }
+
+  get description() {
+    return this.editor.get('description');
+  }
+
+  get body() {
+    return this.editor.get('body')
+  }
+  
+  get tagField() {
+    return this.editor.get('tagField')
+  }
+  private createNew(value) {
+    this.modifyService.createArticle(value).then(
+      value => {
+        this.router.navigate(['/articles', value.slug]);
+      }, error => {
+        this.error = error;
+      }
+    );
+  }
+  private updateArticle(value) {
+    this.modifyService.updateArticle(value, this._chosenSlug).then(
+      value => {
+        this.router.navigate(['/articles', value.slug]);
+      }, error => {
+        this.error = error;
+      }
+    )
+  }
+  onSubmit() {
+    let submitValue = {
+      title: this.title.value,
+      description: this.description.value,
+      body: this.body.value,
+      tagList: this.tagList
+    }
+    if (!this.updating) {
+      this.createNew(submitValue)
+    } else {
+      this.updateArticle(submitValue);
+    }
+  }
+
+  deleteTag(i) {
+    this.tagList.splice(i,1); 
+  }
+
+  addTag() {
+    this.tagList.push(this.tagField.value);
+    this.tagField.reset();
+  }
+
+}

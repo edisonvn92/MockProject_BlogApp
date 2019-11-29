@@ -1,0 +1,79 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { User } from 'src/app/classes/user';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserAuthenticationService {
+  private _currentUser = new User;
+  private _serverURL = 'https://conduit.productionready.io';
+  private _httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Token ' + localStorage.getItem('token'),
+    })
+  };
+  constructor(
+    private http: HttpClient,
+  ) { }
+  //check expiration and if token is still existing or not
+  isAuthenticated(): BehaviorSubject<boolean> {
+    return new BehaviorSubject(localStorage.getItem('token') != null && !this.isTokenExpired());
+  }
+
+  isTokenExpired(): boolean {
+    return false;
+  }
+
+  getCurrentUser(): Promise<User> {
+    if (this._currentUser.username) {
+      return Promise.resolve(this._currentUser);
+    } else {
+      return new Promise((resolve, reject) => {
+        this.http.get(this._serverURL + '/api/user', this._httpOptions).subscribe(
+          data => {
+            this._currentUser = data['user'];
+            this._currentUser.password = localStorage.getItem('password');
+            resolve(data['user'] as User)
+          },
+          error => {
+            reject(error)
+          }
+        )
+      });
+    }
+  }
+
+  getCurrentUsernameAsync(): BehaviorSubject<string> {
+    return new BehaviorSubject(this._currentUser.username);
+  }
+
+  getCurrentUsername(): string {
+    return this._currentUser.username;
+  }
+  getCurrentUserImage(): string {
+    return this._currentUser.image;
+  }
+
+  signin(input: { email: string, password: string }): Promise<User> {
+    return new Promise((resolve, reject) => {
+      this.http.post(this._serverURL + '/api/users/login', { 'user': input }).subscribe(data => {
+        this._currentUser = (data['user'] as User);
+        localStorage.setItem('token', data['user']['token']);
+        localStorage.setItem('password', input.password);
+        resolve(data['user'] as User);
+      },
+        error => {
+          reject(error['error']['errors'])
+        });
+    });
+
+  }
+
+  signout() {
+    this._currentUser = new User;
+    localStorage.clear();
+  }
+}

@@ -1,0 +1,47 @@
+import { Component, OnInit } from '@angular/core';
+import { ArticleInteractService } from '../../../services/articles/article-interact.service';
+
+import { Router } from '@angular/router';
+import { ProfileService } from '../../../services/profile/profile.service';
+import { UserAuthenticationService } from '../../../services/users/user-authentication.service';
+
+@Component({
+  selector: 'app-article-meta',
+  templateUrl: './article-meta.component.html',
+  styleUrls: ['./article-meta.component.css']
+})
+export class ArticleMetaComponent implements OnInit {
+  article = this.articleService.getCurrentArticle();
+  author = this.article.getValue().author;
+  favBtnText = 'Favorite Post'
+  constructor(
+    private router: Router,
+    private profileService: ProfileService,
+    private articleService: ArticleInteractService
+  ) { }
+
+  ngOnInit() {}
+  toggleFollowing(following: boolean) {
+    if (!this.author.following) {
+      this.profileService.followProfile(this.author.username).then(
+        value => {
+         this.author = value;
+        }, error => {
+          console.log(error);
+          this.router.navigate(['/signup'])
+        }
+      )
+    } else {
+     this.profileService.unfollowProfile(this.author.username).then(
+       value => {
+        this.author = value;
+       }, error => {
+         console.log(error);
+         this.router.navigate(['/signup'])
+       }
+     )
+    }
+   }
+ 
+   
+}

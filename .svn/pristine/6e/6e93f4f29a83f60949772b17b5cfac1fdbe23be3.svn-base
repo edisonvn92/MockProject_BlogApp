@@ -1,0 +1,5 @@
+<button class="btn btn-sm" *ngIf="article" [ngClass]="{'btn-outline-primary': !article.favorited, 'btn-primary': article.favorited}" (click)="toggleFavorited()">
+    <i class="ion-heart"></i>
+    &nbsp;
+    {{text}} <span class="counter">{{article.favoritesCount}}</span>
+  </button>

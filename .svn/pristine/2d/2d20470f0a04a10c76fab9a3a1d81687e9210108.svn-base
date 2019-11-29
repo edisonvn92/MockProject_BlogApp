@@ -1,0 +1,19 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { Article } from '../../../classes/article';
+
+
+@Component({
+  selector: 'app-article-content',
+  templateUrl: './article-content.component.html',
+  styleUrls: ['./article-content.component.css']
+})
+export class ArticleContentComponent implements OnInit {
+  @Input()article: Article;
+  body = this.article.body.split(/\n/);
+  constructor() { }
+
+  ngOnInit() {
+    console.log(this.article.body)
+  }
+
+}

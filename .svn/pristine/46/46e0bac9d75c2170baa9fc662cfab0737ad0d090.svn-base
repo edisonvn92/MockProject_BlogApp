@@ -1,0 +1,46 @@
+import { Component, OnInit } from '@angular/core';
+import { Article } from '../../classes/article';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Profile } from '../../classes/profile';
+import { ArticleInteractService } from '../../services/articles/article-interact.service';
+import { ProfileService } from '../../services/profile/profile.service';
+import { UserAuthenticationService } from '../../services/users/user-authentication.service';
+
+@Component({
+  selector: 'app-article-detail',
+  templateUrl: './article-detail.component.html',
+  styleUrls: ['./article-detail.component.css']
+})
+export class ArticleDetailComponent implements OnInit {
+  article: Article;
+  currentUsername: string;
+  author: Profile;
+  favBtnText = "Favorite Post"
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: UserAuthenticationService,
+    private profileService: ProfileService,
+    private articleService: ArticleInteractService
+  ) { }
+
+  ngOnInit() {
+    this.currentUsername = this.authService.getCurrentUsername();
+        
+    this.route.params.subscribe((params: {slug: string}) => {
+      this.articleService.getArticleBySlug(params['slug']).then(
+        value => {
+          this.article = value;
+          this.author = value.author;
+          this.profileService.setClickedProfile(this.author);
+        },
+        error => {
+          console.log(error);
+          this.router.navigate(['/home/global'])
+        }
+      )
+    })
+  }
+
+
+}

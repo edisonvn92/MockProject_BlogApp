@@ -1,0 +1,9 @@
+<button class="btn btn-sm btn-outline-secondary action-btn" *ngIf="!profile.following" (click)="followUser()">
+    <i class="ion-plus-round"></i>
+    &nbsp; Follow {{profile.username}}
+</button>
+
+<button class="btn btn-sm btn-secondary action-btn" *ngIf="profile.following" (click)="unfollowUser()">
+    <i class="ion-plus-round"></i>
+    &nbsp; Unfollow {{profile.username}}
+</button>

@@ -1,0 +1,44 @@
+<div class="home-page">
+
+    <div class="banner" *ngIf="!authService.isAuthenticated()|async">
+        <div class="container">
+            <h1 class="logo-font">conduit</h1>
+            <p>A place to share your knowledge.</p>
+        </div>
+    </div>
+
+    <div class="container page">
+        <div class="row">
+
+            <div class="col-md-9">
+                <div class="feed-toggle row">
+                    <ul class="nav nav-pills outline-active">
+                        <li class="nav-item" *ngIf="authService.isAuthenticated()|async">
+                            <a class="nav-link" routerLink="/home/feed" routerLinkActive="active">Your Feed</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/home/global" routerLinkActive="active">Global Feed</a>
+                        </li>
+                        <li class="nav-item" *ngIf="currentTag">
+                            <a class="nav-link" [routerLink]="['/home', 'tag', currentTag ]" [class.active]="isActive(['/home', 'tag', currentTag])"># {{currentTag}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
+
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <p>Popular Tags</p>
+                    <p *ngIf="loadingTags">Loading Tags...</p>
+
+                    <div class="tag-list">
+                        <a [routerLink]="['/home', 'tag', tag ]" class="tag-pill tag-default" *ngFor="let tag of tags" (click)="getTag(tag)">{{tag}}</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

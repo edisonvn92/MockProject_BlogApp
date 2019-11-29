@@ -1,0 +1,6 @@
+<div class="row article-content">
+    <div class="col-md-12">
+        <p ngFor="let paragraph of body">{{paragraph}}</p>
+
+    </div>
+</div>

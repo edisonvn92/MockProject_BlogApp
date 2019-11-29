@@ -1,0 +1,7 @@
+<p *ngIf="loadingArticles">Loading Articles...</p>
+<p *ngIf="!loadingArticles && articles.length==0">No articles are here... yet.</p>
+<div class="article-preview" *ngFor="let article of articles">
+
+    <app-article-preview [article]="article"></app-article-preview>
+</div>
+<app-pagination *ngIf="!loadingArticles && articles.length>0" [currentPage]="currentPage" (onPageChanged)="onPageChanged($event)"></app-pagination>

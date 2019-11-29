@@ -1,0 +1,11 @@
+<div class="row article-content">
+    <div class="col-md-12">
+        <div>
+            <p *ngFor="let paragraph of body">{{paragraph}}</p>
+        </div>
+
+        <ul class="tag-list">
+            <li class="tag-default tag-pill tag-outline" *ngFor="let tag of tagList">{{tag}}</li>
+        </ul>
+    </div>
+</div>

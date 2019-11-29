@@ -1,0 +1,42 @@
+<div class="editor-page">
+    <div class="container page">
+        <div class="row">
+
+            <div class="col-md-10 offset-md-1 col-xs-12">
+                <div *ngIf="error">
+                    <app-form-error-messages [error]="error"></app-form-error-messages>
+                </div>
+                <form [formGroup]="editor">
+                    <fieldset>
+                        <fieldset class="form-group">
+                            <input type="text" class="form-control form-control-lg" placeholder="Article Title" formControlName="title">
+                            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
+                                <p *ngIf="title.errors['required']">Title is required</p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input type="text" class="form-control" placeholder="What's this article about?" formControlName="description">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" formControlName="body"></textarea>
+                            <div *ngIf="body.invalid && (body.dirty || body.touched)" class="text-danger">
+                                <p *ngIf="body.errors['required']">Body is required</p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter tags" formControlName="tagField" (keyup.enter)="addTag()">
+                            <div class="tag-list">
+                                <span class="tag-pill tag-default" *ngFor="let tag of tagList; let i = index">
+                                    <i class="ion-close-round" (click)="deleteTag(i)"></i> {{tag}}
+                                </span>
+                            </div>
+                        </fieldset>
+                        <button class="btn btn-lg pull-xs-right btn-primary" type="button" (click)="onSubmit()" [disabled]="editor.invalid">
+                            Publish Article
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

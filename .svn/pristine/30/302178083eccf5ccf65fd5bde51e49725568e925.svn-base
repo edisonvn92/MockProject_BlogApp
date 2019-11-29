@@ -1,0 +1,21 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { ArticleDetailRoutingModule } from './article-detail-routing.module';
+import { ArticleDetailComponent } from './article-detail.component';
+import { SharedModule } from '../../shared-component/shared.module';
+import { ArticleInteractService } from '../../services/articles/article-interact.service';
+import { ArticleMetaComponent } from './article-meta/article-meta.component';
+import { ArticleContentComponent } from './article-content/article-content.component';
+
+
+@NgModule({
+  declarations: [ArticleDetailComponent, ArticleMetaComponent, ArticleContentComponent],
+  imports: [
+    CommonModule,
+    SharedModule,
+    ArticleDetailRoutingModule
+  ],
+  providers: [ArticleInteractService]
+})
+export class ArticleDetailModule { }

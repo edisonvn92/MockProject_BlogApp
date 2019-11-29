@@ -1,0 +1,41 @@
+<div class="settings-page">
+    <div class="container page">
+        <div class="row">
+
+            <div class="col-md-6 offset-md-3 col-xs-12">
+                <h1 class="text-xs-center">Your Settings</h1>
+                <form #userSettings="ngForm">
+                    <div *ngIf="error">
+                        <app-form-error-messages [error]="error"></app-form-error-messages>
+                    </div>
+
+                    <fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control" type="text" placeholder="URL of profile picture" [(ngModel)]="currentUser.imageURL" name="imageURL">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-control-lg" type="text" placeholder="Your Name" [(ngModel)]="currentUser.username" name="username">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <textarea class="form-control form-control-lg" rows="8" placeholder="Short bio about you" [(ngModel)]="currentUser.bio" name="bio"></textarea>
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-control-lg" type="email" placeholder="Email" [(ngModel)]="currentUser.email" name="email">
+                        </fieldset>
+                        <fieldset class="form-group">
+                            <input class="form-control form-control-lg" type="password" placeholder="Password" [(ngModel)]="currentUser.password" name="password">
+                        </fieldset>
+                        <button class="btn btn-lg btn-primary pull-xs-right" (click)="updateUser(currentUser)">
+                      Update Settings
+                    </button>
+                    </fieldset>
+                </form>
+                <button class="btn btn-lg btn-danger pull-xs-right" (click)="signOut()">
+                    Or click here to log out
+            </button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
