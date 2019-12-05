@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-form-error-messages',
@@ -11,11 +12,16 @@ export class FormErrorMessagesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
+  }
+  ngOnChanges(): void {
+    this.errorMessages = [];
     for (let ele in this.error ) {
       (this.error[ele] as Array<string>).forEach(err => {
         this.errorMessages.push(ele.slice(0,1).toUpperCase() + ele.slice(1) + " " + err)
       });
     }
+    
   }
 
 }

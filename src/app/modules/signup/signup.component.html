@@ -15,22 +15,30 @@
                 <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" type="text" placeholder="Your Name" formControlName="username">
-                        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger">
+                        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error-messages">
                             <p *ngIf="username.errors['required']">Username field is required</p>
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" type="text" placeholder="Email" formControlName="email">
-                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-messages">
                             <p *ngIf="email.errors['required']">Email field is required</p>
                             <p *ngIf="email.errors['email']">Email field is invalid</p>
                         </div>
                     </fieldset>
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" type="password" placeholder="Password" formControlName="password">
-                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+                        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-messages">
                             <p *ngIf="password.errors['required']">Password field is required</p>
                             <p *ngIf="password.errors['minlength']">Password is too short (8 characters)</p>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <input class="form-control form-control-lg" type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+                        <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="error-messages">
+                            <p *ngIf="confirmPassword.errors['required']">Password field is required</p>
+                            <p *ngIf="confirmPassword.errors['minlength']">Password is too short (8 characters)</p>
+                            <p *ngIf="confirmPassword.errors['mustMatch']">Password doesn't match</p>
                         </div>
                     </fieldset>
                     <button class="btn btn-lg btn-primary pull-xs-right" [disabled]="signUpForm.invalid">

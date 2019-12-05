@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserModifyService } from '../../services/users/user-modify.service';
+import { mustMatchValidator } from '../../utilities/validator/must-match.directive';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { UserAuthenticationService } from '../../services/users/user-authentication.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,13 +15,16 @@ export class SignupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserModifyService
+    private userService: UserAuthenticationService
   ) { }
 
   signUpForm = this.fb.group({
     username: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]]
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
+  }, {
+    validators: [mustMatchValidator('password', 'confirmPassword')]
   })
   errorMessages = [];
 
@@ -33,15 +38,19 @@ export class SignupComponent implements OnInit {
   get password() {
     return this.signUpForm.get('password');
   }
+  get confirmPassword() {
+    return this.signUpForm.get('confirmPassword');
+  }
 
   ngOnInit() {
   }
 
   onSubmit() {
-    this.errorMessages = [];
     this.userService.createNewUser(this.signUpForm.value).subscribe(
       data => this.router.navigate(['/home']),
-      error => this.error = error
+      error => {
+        this.error = error;
+      }
     );
 
   }

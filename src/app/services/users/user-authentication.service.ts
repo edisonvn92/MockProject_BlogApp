@@ -57,7 +57,6 @@ export class UserAuthenticationService {
       tap(data => {
         this._currentUser = data;
         localStorage.setItem('token', data['token']);
-        localStorage.setItem('password', input.password);
       })
     );
   }
@@ -65,5 +64,21 @@ export class UserAuthenticationService {
   signout() {
     this._currentUser = new User;
     localStorage.clear();
+  }
+
+  createNewUser(newUser: User): Observable<User> {
+    return this.http.post(this._serverURL + '/api/users/', { 'user': newUser }).pipe(
+      map(data => data['user'] as User),
+      tap(data => {
+          this.signin({email: newUser.email, password: newUser.password}).subscribe()
+        }) 
+      )
+  }
+
+  updateUser(updatedUser: User): Observable<User> {
+    return this.http.put(this._serverURL + '/api/user', { 'user': updatedUser }).pipe(
+      map(data => data['user']),
+      tap(data => this._currentUser = data)
+    );
   }
 }

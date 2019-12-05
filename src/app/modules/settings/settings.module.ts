@@ -5,7 +5,6 @@ import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared-component/shared.module';
-import { UserModifyService } from 'src/app/services/users/user-modify.service';
 
 
 @NgModule({
@@ -17,6 +16,6 @@ import { UserModifyService } from 'src/app/services/users/user-modify.service';
     SharedModule,
     SettingsRoutingModule
   ],
-  providers: [UserModifyService]
+  providers: []
 })
 export class SettingsModule { }

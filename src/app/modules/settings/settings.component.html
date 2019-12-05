@@ -4,35 +4,45 @@
 
             <div class="col-md-6 offset-md-3 col-xs-12">
                 <h1 class="text-xs-center">Your Settings</h1>
-                <form #userSettings="ngForm">
+                <form [formGroup]="settingsForm">
                     <div *ngIf="error">
                         <app-form-error-messages [error]="error"></app-form-error-messages>
                     </div>
 
                     <fieldset>
                         <fieldset class="form-group">
-                            <input class="form-control" type="text" placeholder="URL of profile picture" [(ngModel)]="currentUser.image" name="image">
+                            <input class="form-control" type="text" placeholder="URL of profile picture" formControlName="image">
                         </fieldset>
                         <fieldset class="form-group">
-                            <input class="form-control form-control-lg" type="text" placeholder="Your Name" [(ngModel)]="currentUser.username" name="username" #username="ngModel" required>
-                            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger">
+                            <input class="form-control form-control-lg" type="text" placeholder="Your Name" formControlName="username">
+                            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error-messages">
                                 <p *ngIf="username.errors['required']">Name field is required</p>
                             </div>
                         </fieldset>
                         <fieldset class="form-group">
-                            <textarea class="form-control form-control-lg" rows="8" placeholder="Short bio about you" [(ngModel)]="currentUser.bio" name="bio"></textarea>
+                            <textarea class="form-control form-control-lg" rows="8" placeholder="Short bio about you" formControlName="bio"></textarea>
                         </fieldset>
                         <fieldset class="form-group">
-                            <input class="form-control form-control-lg" type="email" placeholder="Email" [(ngModel)]="currentUser.email" #email="ngModel" name="email" required email>
-                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                            <input class="form-control form-control-lg" type="email" placeholder="Email" formControlName="email">
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-messages">
                                 <p *ngIf="email.errors['required']">Email field is required</p>
                                 <p *ngIf="email.errors['email']">Email field is invalid</p>
                             </div>
                         </fieldset>
                         <fieldset class="form-group">
-                            <input class="form-control form-control-lg" type="password" placeholder="New Password" [(ngModel)]="currentUser.password" name="password">
+                            <input class="form-control form-control-lg" type="password" placeholder="New Password" formControlName="password">
+                            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-messages">
+                                <p *ngIf="password.errors['minlength']">Password is too short (8 characters)</p>
+                            </div>
                         </fieldset>
-                        <button class="btn btn-lg btn-primary pull-xs-right" (click)="updateUser(currentUser)">
+                        <fieldset class="form-group">
+                            <input class="form-control form-control-lg" type="password" placeholder="Confirm Password" formControlName="confirmPassword">
+                            <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="error-messages">
+                                <p *ngIf="confirmPassword.errors['minlength']">Password is too short (8 characters)</p>
+                                <p *ngIf="confirmPassword.errors['mustMatch']">Password doesn't match</p>
+                            </div>
+                        </fieldset>
+                        <button class="btn btn-lg btn-primary pull-xs-right" (click)="updateUser()">
                             Update Settings
                         </button>
                     </fieldset>

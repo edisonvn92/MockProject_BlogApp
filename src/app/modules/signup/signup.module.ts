@@ -5,7 +5,6 @@ import { SignupRoutingModule } from './signup-routing.module';
 import { SignupComponent } from './signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared-component/shared.module';
-import { UserModifyService } from 'src/app/services/users/user-modify.service';
 
 
 @NgModule({
@@ -16,6 +15,6 @@ import { UserModifyService } from 'src/app/services/users/user-modify.service';
     SharedModule,
     SignupRoutingModule
   ],
-  providers: [UserModifyService]
+  providers: []
 })
 export class SignupModule { }

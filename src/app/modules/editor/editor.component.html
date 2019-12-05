@@ -10,7 +10,7 @@
                     <fieldset>
                         <fieldset class="form-group">
                             <input type="text" class="form-control form-control-lg" placeholder="Article Title" formControlName="title">
-                            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
+                            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="error-messages">
                                 <p *ngIf="title.errors['required']">Title is required</p>
                             </div>
                         </fieldset>
@@ -19,7 +19,7 @@
                         </fieldset>
                         <fieldset class="form-group">
                             <textarea class="form-control" rows="8" placeholder="Write your article (in markdown)" formControlName="body"></textarea>
-                            <div *ngIf="body.invalid && (body.dirty || body.touched)" class="text-danger">
+                            <div *ngIf="body.invalid && (body.dirty || body.touched)" class="error-messages">
                                 <p *ngIf="body.errors['required']">Body is required</p>
                             </div>
                         </fieldset>

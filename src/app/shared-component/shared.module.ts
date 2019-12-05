@@ -8,6 +8,7 @@ import { FavoriteButtonComponent } from './favorite-button/favorite-button.compo
 import { RouterModule } from '@angular/router';
 import { FormErrorMessagesComponent } from './form-error-messages/form-error-messages.component';
 import { FollowButtonComponent } from './follow-button/follow-button.component';
+import { MustMatchValidatorDirective } from '../utilities/validator/must-match.directive';
 
 
 
@@ -20,6 +21,7 @@ import { FollowButtonComponent } from './follow-button/follow-button.component';
     FavoriteButtonComponent,
     FormErrorMessagesComponent,
     FollowButtonComponent,
+    MustMatchValidatorDirective
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { FollowButtonComponent } from './follow-button/follow-button.component';
     ArticleInfoComponent,
     FavoriteButtonComponent,
     FormErrorMessagesComponent,
-    FollowButtonComponent
+    FollowButtonComponent,
+    MustMatchValidatorDirective
   ]
 })
 export class SharedModule { }
